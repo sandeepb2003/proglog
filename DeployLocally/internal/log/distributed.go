@@ -200,6 +200,7 @@ func (l *DistributedLog) Read(offset uint64) (*api.Record, error) {
 
 // START: cluster
 func (l *DistributedLog) Join(id, addr string) error {
+	fmt.Println("Join called")
 	configFuture := l.raft.GetConfiguration()
 	if err := configFuture.Error(); err != nil {
 		return err
@@ -210,15 +211,18 @@ func (l *DistributedLog) Join(id, addr string) error {
 		if srv.ID == serverID || srv.Address == serverAddr {
 			if srv.ID == serverID && srv.Address == serverAddr {
 				// server has already joined
+				fmt.Fprintf(os.Stdout, "server has already joined")
 				return nil
 			}
 			// remove the existing server
+			fmt.Fprintf(os.Stdout, "remove the existing server")
 			removeFuture := l.raft.RemoveServer(serverID, 0, 0)
 			if err := removeFuture.Error(); err != nil {
 				return err
 			}
 		}
 	}
+	fmt.Fprintf(os.Stdout, "Add voter")
 	addFuture := l.raft.AddVoter(serverID, serverAddr, 0, 0)
 	if err := addFuture.Error(); err != nil {
 		return err

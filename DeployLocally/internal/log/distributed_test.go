@@ -11,10 +11,10 @@ import (
 	"time"
 
 	"github.com/hashicorp/raft"
-	"github.com/stretchr/testify/require"
-	"github.com/sandeepb2003/go-dynaport"
 	api "github.com/sandeepb2003/proglog/api/v1"
 	"github.com/sandeepb2003/proglog/internal/log"
+	"github.com/stretchr/testify/require"
+	"github.com/travisjeffery/go-dynaport"
 )
 
 func TestMultipleNodes(t *testing.T) {

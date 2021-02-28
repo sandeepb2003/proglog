@@ -3,7 +3,7 @@ package server
 
 import (
 	"context"
-	
+
 	"io/ioutil"
 	"net"
 	"os"
@@ -18,6 +18,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"flag"
+
 	"go.opencensus.io/examples/exporter"
 
 	api "github.com/sandeepb2003/proglog/api/v1"
@@ -25,7 +26,7 @@ import (
 	"github.com/sandeepb2003/proglog/internal/config"
 	"github.com/sandeepb2003/proglog/internal/log"
 
-	"github.com/sandeepb2003/go-dynaport"
+	"github.com/travisjeffery/go-dynaport"
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 )
 
@@ -57,7 +58,7 @@ func TestServer(t *testing.T) {
 		"consume past log boundary fails":                     testConsumePastBoundary,
 		"unauthorized fails":                                  testUnauthorized,
 		// START_HIGHLIGHT
-		"healthcheck succeeds":                                testHealthCheck,
+		"healthcheck succeeds": testHealthCheck,
 		// END_HIGHLIGHT
 	} {
 		t.Run(scenario, func(t *testing.T) {
@@ -73,6 +74,7 @@ type clients struct {
 	Nobody api.LogClient
 	Health healthpb.HealthClient
 }
+
 // END: intro
 
 // START: setup
@@ -125,13 +127,13 @@ func setupTest(t *testing.T, fn func(*Config)) (
 		t.Logf("traces log file: %s", tracesLogFile.Name())
 
 		telemetryExporter, err = exporter.NewLogExporter(exporter.Options{
-			MetricsLogFile: metricsLogFile.Name(),
-			TracesLogFile: tracesLogFile.Name(),
-			ReportingInterval: time.Second,		
+			MetricsLogFile:    metricsLogFile.Name(),
+			TracesLogFile:     tracesLogFile.Name(),
+			ReportingInterval: time.Second,
 		})
 		require.NoError(t, err)
 		err = telemetryExporter.Start()
-		require.NoError(t, err)		
+		require.NoError(t, err)
 	}
 
 	// START: config
@@ -194,7 +196,7 @@ func setupTest(t *testing.T, fn func(*Config)) (
 		l.Close()
 		if telemetryExporter != nil {
 			time.Sleep(1500 * time.Millisecond)
-			telemetryExporter.Stop()		
+			telemetryExporter.Stop()
 			telemetryExporter.Close()
 		}
 		clog.Remove()
@@ -358,4 +360,5 @@ func testHealthCheck(
 	require.NoError(t, err)
 	require.Equal(t, healthpb.HealthCheckResponse_SERVING, res.Status)
 }
+
 // END: healthcheck
