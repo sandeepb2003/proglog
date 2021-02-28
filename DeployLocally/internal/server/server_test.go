@@ -20,12 +20,12 @@ import (
 	"flag"
 	"go.opencensus.io/examples/exporter"
 
-	api "github.com/travisjeffery/proglog/api/v1"
-	"github.com/travisjeffery/proglog/internal/auth"
-	"github.com/travisjeffery/proglog/internal/config"
-	"github.com/travisjeffery/proglog/internal/log"
+	api "github.com/sandeepb2003/proglog/api/v1"
+	"github.com/sandeepb2003/proglog/internal/auth"
+	"github.com/sandeepb2003/proglog/internal/config"
+	"github.com/sandeepb2003/proglog/internal/log"
 
-	"github.com/travisjeffery/go-dynaport"
+	"github.com/sandeepb2003/go-dynaport"
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 )
 

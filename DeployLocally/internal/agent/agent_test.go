@@ -10,14 +10,14 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
-	"github.com/travisjeffery/go-dynaport"
+	"github.com/sandeepb2003/go-dynaport"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	api "github.com/travisjeffery/proglog/api/v1"
-	"github.com/travisjeffery/proglog/internal/agent"
-	"github.com/travisjeffery/proglog/internal/config"
-	"github.com/travisjeffery/proglog/internal/loadbalance"
+	api "github.com/sandeepb2003/proglog/api/v1"
+	"github.com/sandeepb2003/proglog/internal/agent"
+	"github.com/sandeepb2003/proglog/internal/config"
+	"github.com/sandeepb2003/proglog/internal/loadbalance"
 )
 
 func TestAgent(t *testing.T) {

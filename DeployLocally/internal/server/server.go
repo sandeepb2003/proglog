@@ -5,7 +5,7 @@ import (
 	"context"
 	"time"
 
-	api "github.com/travisjeffery/proglog/api/v1"
+	api "github.com/sandeepb2003/proglog/api/v1"
 
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"

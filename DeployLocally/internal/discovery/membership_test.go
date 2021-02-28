@@ -7,8 +7,8 @@ import (
 
 	"github.com/hashicorp/serf/serf"
 	"github.com/stretchr/testify/require"
-	"github.com/travisjeffery/go-dynaport"
-	. "github.com/travisjeffery/proglog/internal/discovery"
+	"github.com/sandeepb2003/go-dynaport"
+	. "github.com/sandeepb2003/proglog/internal/discovery"
 )
 
 func TestMembership(t *testing.T) {
