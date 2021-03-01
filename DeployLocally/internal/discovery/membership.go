@@ -85,8 +85,10 @@ func (m *Membership) eventHandler() {
 			for _, member := range e.(serf.MemberEvent).Members {
 				fmt.Println("member name :: ", member.Name)
 				if m.isLocal(member) {
+					fmt.Println("member is local :: ", member.Name)
 					continue
 				}
+				fmt.Println("member is not local :: ", member.Name)
 				m.handleJoin(member)
 			}
 		case serf.EventMemberLeave, serf.EventMemberFailed:
@@ -121,6 +123,8 @@ func (m *Membership) handleLeave(member serf.Member) {
 
 // START: rest
 func (m *Membership) isLocal(member serf.Member) bool {
+	fmt.Println("member serf name :: ", m.serf.LocalMember().Name)
+	fmt.Println("member local name :: ", member.Name)
 	return m.serf.LocalMember().Name == member.Name
 }
 
