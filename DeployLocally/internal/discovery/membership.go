@@ -2,6 +2,7 @@
 package discovery
 
 import (
+	"fmt"
 	"net"
 
 	"go.uber.org/zap"
@@ -82,6 +83,7 @@ func (m *Membership) eventHandler() {
 		switch e.EventType() {
 		case serf.EventMemberJoin:
 			for _, member := range e.(serf.MemberEvent).Members {
+				fmt.Println("member name :: ", member.Name)
 				if m.isLocal(member) {
 					continue
 				}
