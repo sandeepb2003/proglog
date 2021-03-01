@@ -2,16 +2,17 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
 	"path"
 	"syscall"
 
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	"github.com/sandeepb2003/proglog/internal/agent"
 	"github.com/sandeepb2003/proglog/internal/config"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 func main() {
@@ -119,6 +120,7 @@ func (c *cli) setupConfig(cmd *cobra.Command, args []string) error {
 	c.cfg.BindAddr = viper.GetString("bind-addr")
 	c.cfg.RPCPort = viper.GetInt("rpc-port")
 	c.cfg.StartJoinAddrs = viper.GetStringSlice("start-join-addrs")
+	fmt.Println("start-join-addrs", viper.GetStringSlice("start-join-addrs"))
 	c.cfg.Bootstrap = viper.GetBool("bootstrap")
 	c.cfg.ACLModelFile = viper.GetString("acl-mode-file")
 	c.cfg.ACLPolicyFile = viper.GetString("acl-policy-file")

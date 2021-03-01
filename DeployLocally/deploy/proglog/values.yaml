@@ -5,5 +5,5 @@ image:
   pullPolicy: IfNotPresent
 serfPort: 8401
 rpcPort: 8400
-replicas: 3
+replicas: 1
 storage: 1Gi
