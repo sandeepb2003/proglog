@@ -100,16 +100,16 @@ func NewGRPCServer(config *Config, grpcOpts ...grpc.ServerOption) (
 				grpc_zap.UnaryServerInterceptor(
 					logger, zapOpts...,
 				),
-				grpc_auth.UnaryServerInterceptor(
-					authenticate,
-				),
+				//grpc_auth.UnaryServerInterceptor(
+				//authenticate,
+				//),
 			)),
 		grpc.StatsHandler(&ocgrpc.ServerHandler{}),
 	)
 	gsrv := grpc.NewServer(grpcOpts...)
 
 	// START_HIGHLIGHT
-	hsrv := health.NewServer(grpcOpts...)
+	hsrv := health.NewServer()
 	hsrv.SetServingStatus("", healthpb.HealthCheckResponse_SERVING)
 	healthpb.RegisterHealthServer(gsrv, hsrv)
 	// END_HIGHLIGHT
