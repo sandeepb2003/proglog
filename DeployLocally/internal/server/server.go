@@ -11,14 +11,14 @@ import (
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
-	
+
 	"go.opencensus.io/plugin/ocgrpc"
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/trace"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	
+
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"
@@ -28,8 +28,9 @@ import (
 	// START_HIGHLIGHT
 	"google.golang.org/grpc/health"
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"
-	// END_HIGHLIGHT		
+	// END_HIGHLIGHT
 )
+
 // END: imports
 
 // START: config
@@ -46,7 +47,6 @@ const (
 	produceAction  = "produce"
 	consumeAction  = "consume"
 )
-
 
 type grpcServer struct {
 	*Config
@@ -109,11 +109,11 @@ func NewGRPCServer(config *Config, grpcOpts ...grpc.ServerOption) (
 	gsrv := grpc.NewServer(grpcOpts...)
 
 	// START_HIGHLIGHT
-	hsrv := health.NewServer()
+	hsrv := health.NewServer(grpcOpts...)
 	hsrv.SetServingStatus("", healthpb.HealthCheckResponse_SERVING)
 	healthpb.RegisterHealthServer(gsrv, hsrv)
 	// END_HIGHLIGHT
-	
+
 	srv, err := newgrpcServer(config)
 	if err != nil {
 		return nil, err
@@ -123,10 +123,11 @@ func NewGRPCServer(config *Config, grpcOpts ...grpc.ServerOption) (
 		Consume:       srv.Consume,
 		ConsumeStream: srv.ConsumeStream,
 		ProduceStream: srv.ProduceStream,
-		GetServers: srv.GetServers,
+		GetServers:    srv.GetServers,
 	})
 	return gsrv, nil
 }
+
 // END: new
 
 func (s *grpcServer) Produce(ctx context.Context, req *api.ProduceRequest) (
@@ -145,7 +146,6 @@ func (s *grpcServer) Produce(ctx context.Context, req *api.ProduceRequest) (
 	return &api.ProduceResponse{Offset: offset}, nil
 }
 
-
 func (s *grpcServer) Consume(ctx context.Context, req *api.ConsumeRequest) (
 	*api.ConsumeResponse, error) {
 	if err := s.Authorizer.Authorize(
@@ -161,7 +161,6 @@ func (s *grpcServer) Consume(ctx context.Context, req *api.ConsumeRequest) (
 	}
 	return &api.ConsumeResponse{Record: record}, nil
 }
-
 
 func (s *grpcServer) ProduceStream(stream api.Log_ProduceStreamServer) error {
 	for {
@@ -219,19 +218,17 @@ func (s *grpcServer) GetServers(
 type GetServerer interface {
 	GetServers() ([]*api.Server, error)
 }
-// END: get_servers_method
 
+// END: get_servers_method
 
 type CommitLog interface {
 	Append(*api.Record) (uint64, error)
 	Read(uint64) (*api.Record, error)
 }
 
-
 type Authorizer interface {
 	Authorize(subject, object, action string) error
 }
-
 
 func authenticate(ctx context.Context) (context.Context, error) {
 	peer, ok := peer.FromContext(ctx)
@@ -261,4 +258,3 @@ func subject(ctx context.Context) string {
 }
 
 type subjectContextKey struct{}
-
