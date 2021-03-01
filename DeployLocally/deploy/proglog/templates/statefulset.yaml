@@ -55,7 +55,7 @@ spec:
         livenessProbe:
           exec:
             command: ["/bin/grpc_health_probe", "-addr=:{{ .Values.rpcPort }}"]
-          initialDelaySeconds: 10
+          initialDelaySeconds: 20
         volumeMounts:
         - name: datadir
           mountPath: /var/run/proglog
