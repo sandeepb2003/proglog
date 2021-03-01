@@ -94,6 +94,7 @@ func (m *Membership) eventHandler() {
 		case serf.EventMemberLeave, serf.EventMemberFailed:
 			for _, member := range e.(serf.MemberEvent).Members {
 				if m.isLocal(member) {
+					fmt.Println("member leaving is local :: ", member.Name)
 					return
 				}
 				m.handleLeave(member)
